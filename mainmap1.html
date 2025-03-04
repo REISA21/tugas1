@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mindmap Teori Pasang Surut</title>
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #015871;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .header {
+            padding: 20px;
+            text-align: center;
+            color: white;
+            background: rgba(0,0,0,0.2);
+            z-index: 2;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .header p {
+            margin: 5px 0;
+            font-size: 1.2em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        #mynetwork {
+            flex: 1;
+            position: relative;
+            z-index: 1;
+            background: transparent;
+        }
+
+        .ocean { 
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            bottom: 0;
+            left: 0;
+            background: #015871;
+            z-index: -1;
+        }
+
+        .wave {
+            background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg) repeat-x;
+            position: absolute;
+            bottom: 0;
+            width: 6400px;
+            height: 198px;
+            animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+            transform: translate3d(0, 0, 0);
+        }
+
+        .wave:nth-of-type(2) {
+            bottom: 25px;
+            animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) -.125s infinite, swell 7s ease -1.25s infinite;
+            opacity: 1;
+        }
+
+        @keyframes wave {
+            0% { margin-left: 0; }
+            100% { margin-left: -1600px; }
+        }
+
+        @keyframes swell {
+            0%, 100% { transform: translateY(-25px); }
+            50% { transform: translateY(5px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Mindmap: Teori Pasang Surut</h1>
+            <p>REHAGEL REISA</p>
+            <p>NIM: 122230026</p>
+        </div>
+        <div id="mynetwork"></div>
+    </div>
+
+    <div class="ocean">
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
+
+<script type="text/javascript">
+    var container = document.getElementById('mynetwork');
+
+    // Data nodes lengkap
+    var nodes = new vis.DataSet([
+        {id: 1, label: 'Pasang Surut', color: '#3498db', size: 35},
+        {id: 2, label: 'Siklus', color: '#87CEEB'},
+        {id: 3, label: 'Siklus Harian', color: '#AED6F1'},
+        {id: 4, label: 'Siklus Bulanan', color: '#AED6F1'},
+        {id: 5, label: 'Gravitasi bulan & matahari', color: '#AED6F1'},
+        {id: 6, label: 'Topografi Pantai', color: '#AED6F1'},
+        {id: 7, label: 'Pengukuran', color: '#87CEEB'},
+        {id: 8, label: 'Satelit Altimetry', color: '#AED6F1'},
+        {id: 9, label: 'Tide Gauge', color: '#AED6F1'},
+        {id: 10, label: 'Rotasi Bumi', color: '#AED6F1'},
+        {id: 11, label: 'Faktor Penyebab', color: '#87CEEB'},
+        {id: 12, label: 'Pasang Perbani', color: '#AED6F1'},
+        {id: 13, label: 'Pengaruh Fase Bulan', color: '#AED6F1'},
+        {id: 14, label: 'Posisi Bulan & Matahari', color: '#AED6F1'},
+        {id: 15, label: 'Jenis', color: '#87CEEB'},
+        {id: 16, label: 'Pasang Harian Tunggal', color: '#AED6F1'},
+        {id: 17, label: 'Pasang Campuran', color: '#AED6F1'},
+        {id: 18, label: 'Pasang Purnama', color: '#AED6F1'},
+        {id: 19, label: 'Pengaruh', color: '#87CEEB'},
+        {id: 20, label: 'Pariwisata', color: '#AED6F1'},
+        {id: 21, label: 'Energi Terbarukan', color: '#AED6F1'},
+        {id: 22, label: 'Lingkungan', color: '#AED6F1'},
+        {id: 23, label: 'Perikanan', color: '#AED6F1'},
+        {id: 24, label: 'Perubahan air laut', color: '#AED6F1'},
+        {id: 25, label: 'Prediksi Pasang Surut', color: '#AED6F1'},
+        {id: 26, label: 'Transportasi Laut', color: '#AED6F1'},
+        {id: 27, label: 'Cuaca & Angin', color: '#AED6F1'}
+    ]);
+
+    // Data edges lengkap
+    var edges = new vis.DataSet([
+        {from: 1, to: 2}, {from: 1, to: 7}, {from: 1, to: 11},
+        {from: 1, to: 15}, {from: 1, to: 19},
+        {from: 2, to: 3}, {from: 2, to: 4}, {from: 2, to: 5}, {from: 2, to: 6},
+        {from: 7, to: 8}, {from: 7, to: 9}, {from: 7, to: 10},
+        {from: 11, to: 12}, {from: 11, to: 13}, {from: 11, to: 14},
+        {from: 15, to: 16}, {from: 15, to: 17}, {from: 15, to: 18},
+        {from: 19, to: 20}, {from: 19, to: 21}, {from: 19, to: 22},
+        {from: 19, to: 23}, {from: 19, to: 26}, {from: 19, to: 27},
+        {from: 7, to: 24}, {from: 7, to: 25}
+    ]);
+
+    // Options yang dioptimalkan
+    var options = {
+        nodes: {
+            shape: 'circle',
+            size: 25,
+            font: {
+                size: 16,
+                color: '#ffffff',
+                face: 'Arial',
+                strokeWidth: 2,
+                strokeColor: '#000000'
+            },
+            borderWidth: 2,
+            shadow: {
+                enabled: true,
+                color: 'rgba(0,0,0,0.5)',
+                size: 10,
+                x: 5,
+                y: 5
+            }
+        },
+        edges: {
+            width: 2,
+            color: {
+                color: '#ffffff',
+                highlight: '#3498db',
+                hover: '#848484'
+            },
+            smooth: {
+                type: 'continuous',
+                roundness: 0.5
+            },
+            arrows: {
+                to: {enabled: true, scaleFactor: 0.5}
+            }
+        },
+        physics: {
+            enabled: true,
+            barnesHut: {
+                gravitationalConstant: -2000,
+                centralGravity: 0.3,
+                springLength: 250,
+                springConstant: 0.04,
+                damping: 0.09,
+                avoidOverlap: 1.5
+            },
+            stabilization: {
+                iterations: 2000,
+                updateInterval: 25
+            }
+        },
+        layout: {
+            improvedLayout: true,
+            randomSeed: 2
+        }
+    };
+
+    // Create network
+    var network = new vis.Network(container, {nodes: nodes, edges: edges}, options);
+
+    // Fungsi untuk menyesuaikan ukuran
+    function resizeNetwork() {
+        var container = document.getElementById('mynetwork');
+        container.style.height = (window.innerHeight - document.querySelector('.header').offsetHeight) + 'px';
+        network.fit();
+    }
+
+    // Event listeners
+    window.addEventListener('resize', resizeNetwork);
+    resizeNetwork();
+
+    network.on("stabilizationIterationsDone", function() {
+        network.setOptions({ physics: { enabled: false } });
+    });
+
+    // Interaksi hover
+    network.on("hoverNode", function(params) {
+        network.canvas.body.container.style.cursor = 'pointer';
+    });
+
+    network.on("blurNode", function(params) {
+        network.canvas.body.container.style.cursor = 'default';
+    });
+
+    // Double click untuk zoom
+    network.on("doubleClick", function(params) {
+        if (params.nodes.length > 0) {
+            network.focus(params.nodes[0], {
+                scale: 1.2,
+                animation: true
+            });
+        }
+    });
+</script>
+</body>
+</html>
